@@ -6,15 +6,26 @@ BASHFILES = ~/.bashrc \
 			~/.zenossrc \
 			~/.bashgit
 BIN=$(HOME)/bin
-EASYINSTALL=source $(BIN)/activate; $(BIN)/easy_install
+PIP=$(BIN)/pip install
 VIRTUALENV=$(TMPDIR)/virtualenv.py
+PYTHON=$(BIN)/python
+PACKAGES=ipython \
+		 virtualenv \
+		 zope.interface \
+		 cliutils \
+		 zc.buildout
+
 
 .DEFAULT: all
 
-all: bash-config python-env
+all: bash-config python-packages
+
+activate: $(PYTHON)
+	@source $(BIN)/activate;
 
 $(TMPDIR):
 	@mkdir -p $@
+	@sleep 1
 
 bash-config-setup:
 	@for f in $(BASHFILES); do \
@@ -31,17 +42,17 @@ bash-config: bash-config-setup $(BASHFILES)
 $(BASHFILES):
 	@ln -s $(MAKEFILEDIR)/`basename $@` $@
 
-python-env: $(BIN)/python $(BIN)/ipython
-
-$(VIRTUALENV): $(TMPDIR)
+$(VIRTUALENV): | $(TMPDIR)
+	@echo $@
 	@cd $(TMPDIR); wget "http://bitbucket.org/ianb/virtualenv/raw/8dd7663d9811/virtualenv.py"
 
-$(HOME)/bin/python: $(VIRTUALENV)
+$(PYTHON): $(VIRTUALENV)
 	@python $(VIRTUALENV) $(HOME)
 
-$(BIN)/ipython: $(BIN)/python
-	@$(EASYINSTALL) ipython
+python-packages: $(PYTHON) activate
+	@$(PIP) $(PACKAGES)
 
-.PHONY: clean
 clean:
 	@rm -rf $(TMPDIR)
+
+.PHONY: all clean bash-config-setup bash-config python-packages
