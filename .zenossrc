@@ -1,0 +1,28 @@
+export ZENHOME=/Users/ian/zenoss
+export ZENSRC=/Users/ian/src/zenoss/core
+export ZENENTSRC=/Users/ian/src/zenoss/enterprise
+
+zenv () {
+    export CC=gcc-4.0
+    export CXX=g++-4.0
+    export PATH=$ZENHOME/bin:$PATH
+    export PYTHONPATH=$ZENHOME/lib/python:$PYTHONPATH
+    export PS1="(zenoss) $PS1"
+}
+
+alias cdz="cd $ZENHOME && ls"
+alias cdp="cd $ZENSRC/Products && ls"
+alias cde="cd $ZENENTSRC && ls"
+alias cdm="cd $ZENSRC/Products/ZenModel && ls"
+alias cdui="cd $ZENHOME/Products/ZenUI3/browser && ls"
+alias cdi="cd $ZENSRC/inst"
+
+alias pushz="rsync -avz --delete /Users/ian/src/zenoss/core iansmbp:/Users/ian/Archive/Projects/Zenoss/Zenoss"
+alias pullz="rsync -avz --delete iansmbp:/Users/ian/Archive/Projects/Zenoss/Zenoss/core /Users/ian/src/zenoss"
+
+cpd () {
+    PROPDIR=*$1*
+    PROPDIR=`echo $PROPDIR`
+    SUBDIR=`python -c "print '/'.join('$PROPDIR'.split('.'))"`
+    cd $PROPDIR/$SUBDIR
+}

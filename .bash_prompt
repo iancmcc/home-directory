@@ -1,0 +1,74 @@
+if [ -f ~/.bashgit ]; then
+    . ~/.bashgit
+fi
+
+ENDCOLOR="\[\e[0m\]"
+BLACK="\[\e[0;30m\]"
+BLUE="\[\e[0;34m\]"
+GREEN="\[\e[0;32m\]"
+CYAN="\[\e[0;36m\]"
+RED="\[\e[0;31m\]"
+PURPLE="\[\e[0;35m\]"
+BROWN="\[\e[0;33m\]"
+GREY="\[\e[0;37m\]"
+DGREY="\[\e[1;30m\]"
+YELLOW="\[\e[1;33m\]"
+WHITE="\[\e[1;37m\]"
+
+B_BLUE="\[\e[1;34m\]"
+B_GREEN="\[\e[1;32m\]"
+B_CYAN="\[\e[1;36m\]"
+B_RED="\[\e[1;31m\]"
+B_PURPLE="\[\e[1;35m\]"
+
+case $(id -u) in
+0)
+# STARTCOLOR='\[\e[31m\]';
+STARTCOLOR=$B_RED;
+;;
+*)
+# STARTCOLOR='\[\e[36m\]';
+STARTCOLOR=$B_CYAN;
+;;
+esac
+
+case $TERM in
+xterm*)
+TITLEBAR='\[\e]0;\u@\h \w \007\]';
+;;
+*)
+TITLEBAR="";
+;;
+esac
+
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+
+curdir () {
+    echo $PWD | sed -e "s,$ZENHOME,ZENHOME,g" | sed -e "s,/Users/ian/Archive/Projects/Zenoss/Zenoss/,,g"
+}
+
+curip () {
+    ifconfig en0 | grep cast | awk '{print $2}'
+}
+
+zend () {
+    local RESULT=""
+    local OUTPUT="`ps aux | grep $ZENHOME`"
+    local SEARCHFOR="zeoctl:z
+                    (zopectl|Startup/run.py):Z
+                    zenhub:h
+                    zenjobs:j"
+    for f in $SEARCHFOR; do
+        if [ -n "`echo \"$OUTPUT\" | egrep \"${f%:*}\"`" ]; then
+            RESULT="${RESULT}${f#*:}"
+        fi
+    done
+    echo $RESULT
+}
+
+SEP=" $GREY| "
+
+PS1="$STARTCOLOR\u$SEP$B_PURPLE\$(zend)$SEP$RED\$(curip)$SEP$GREEN\$(curdir)$YELLOW\$(__git_ps1)$GREY\n=\$>$ENDCOLOR "
+
+export CSCOPE_DB=/Users/ian/.tags/python/cscope.out
