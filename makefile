@@ -1,5 +1,6 @@
 MAKEFILEDIR = $(shell pwd)
 BASHFILES = ~/.bashrc \
+			~/.profile \
 			~/.bash_prompt \
 			~/.zenossrc \
 			~/.bashgit
@@ -12,7 +13,7 @@ bash-config-setup:
 	@for f in $(BASHFILES); do \
 		TARGET=`readlink $$f`; \
 		if [ -e $$f ]; then \
-			if [ ! -h $$f -o ! "`dirname $$TARGET`" = "$(MAKEFILEDIR)" ]; then \
+			if [ ! -h $$f -o `dirname $$TARGET` != $(MAKEFILEDIR) ]; then \
 				mv $$f $$f.orig; \
 			fi; \
 		fi; \
