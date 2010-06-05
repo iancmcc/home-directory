@@ -51,7 +51,9 @@ bind 'set visible-stats on'
 # Auto-expand ! stuff (!!, e.g.) when you hit space
 bind 'Space:magic-space'
 
-# Set defaults, helpful shortcuts
+###############################
+#           ALIASES           #
+###############################
 alias ez="easy_install"
 alias gvim="open -a MacVim.app"
 alias g="gvim"
@@ -72,6 +74,12 @@ fi
 if [ -f ~/.bash_prompt ]; then
     . ~/.bash_prompt
 fi
+
+VIRTUAL_ENV_DISABLE_PROMPT=1
+if [ -f ~/bin/activate ]; then
+    . ~/bin/activate
+fi
+
 
 # Push SSH public key to a remote box for key access
 # usage: setupssh ian@mybox
