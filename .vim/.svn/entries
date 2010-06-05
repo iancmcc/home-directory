@@ -1,0 +1,49 @@
+8
+
+dir
+520
+http://mcbrocken.homelinux.com:81/svn/home/vim/.vim
+http://mcbrocken.homelinux.com:81/svn
+
+
+
+2008-05-22T12:39:32.687689Z
+390
+ian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9bb8db47-6264-4853-aaef-e78f55f97be5
+
+indent
+dir
+
+colors
+dir
+
+doc
+dir
+
+syntax
+dir
+
+autoload
+dir
+
+plugin
+dir
+
+tags
+dir
+

@@ -4,7 +4,10 @@ BASHFILES = ~/.bashrc \
 			~/.profile \
 			~/.bash_prompt \
 			~/.zenossrc \
-			~/.bashgit
+			~/.bashgit \
+			~/.vim \
+			~/.vimrc \
+			~/.gvimrc
 BIN=$(HOME)/bin
 PIP=$(BIN)/pip install
 VIRTUALENV=$(TMPDIR)/virtualenv.py
@@ -49,10 +52,11 @@ $(VIRTUALENV): | $(TMPDIR)
 $(PYTHON): $(VIRTUALENV)
 	@python $(VIRTUALENV) $(HOME)
 
-python-packages: $(PYTHON) activate
+python-packages: $(PYTHON)
 	@$(PIP) $(PACKAGES)
 
 clean:
 	@rm -rf $(TMPDIR)
+
 
 .PHONY: all clean bash-config-setup bash-config python-packages

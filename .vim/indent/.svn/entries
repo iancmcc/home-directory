@@ -1,0 +1,40 @@
+8
+
+dir
+520
+http://mcbrocken.homelinux.com:81/svn/home/vim/.vim/indent
+http://mcbrocken.homelinux.com:81/svn
+
+
+
+2008-02-02T23:27:46.217147Z
+216
+ian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9bb8db47-6264-4853-aaef-e78f55f97be5
+
+python.vim
+file
+
+
+
+
+2008-05-16T13:54:02.000000Z
+9ba17880533f890000d46bd20bbc8782
+2008-02-02T23:27:46.217147Z
+216
+ian
+

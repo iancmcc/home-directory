@@ -1,0 +1,40 @@
+8
+
+dir
+520
+http://mcbrocken.homelinux.com:81/svn/home/vim/.vim/syntax
+http://mcbrocken.homelinux.com:81/svn
+
+
+
+2007-10-24T13:58:56.609665Z
+30
+ian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9bb8db47-6264-4853-aaef-e78f55f97be5
+
+python.vim
+file
+590
+
+
+
+2008-09-24T19:25:44.000000Z
+7b7c10dd51417280a264e79f07a1f136
+2008-09-24T19:26:45.484339Z
+590
+ian
+

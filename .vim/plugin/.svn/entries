@@ -1,0 +1,40 @@
+8
+
+dir
+520
+http://mcbrocken.homelinux.com:81/svn/home/vim/.vim/plugin
+http://mcbrocken.homelinux.com:81/svn
+
+
+
+2007-11-08T03:59:20.811770Z
+55
+ian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9bb8db47-6264-4853-aaef-e78f55f97be5
+
+python.vim
+file
+
+
+
+
+2008-05-16T13:54:07.000000Z
+d81d550d477c1892426e7d8965da837d
+2007-10-24T13:58:56.609665Z
+30
+ian
+

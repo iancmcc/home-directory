@@ -1,0 +1,41 @@
+8
+
+dir
+520
+http://mcbrocken.homelinux.com:81/svn/home/vim/.vim/doc
+http://mcbrocken.homelinux.com:81/svn
+
+
+
+2007-10-24T13:58:56.609665Z
+30
+ian
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9bb8db47-6264-4853-aaef-e78f55f97be5
+
+taglist.txt
+file
+
+
+
+
+2008-05-16T13:54:07.000000Z
+5929aca911d2b603683767bd371117e7
+2007-10-24T13:58:56.609665Z
+30
+ian
+has-props
+
