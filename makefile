@@ -9,11 +9,13 @@ BIN=$(HOME)/bin
 PIP=$(BIN)/pip install
 VIRTUALENV=$(TMPDIR)/virtualenv.py
 PYTHON=$(BIN)/python
-PACKAGES=ipython \
-		 virtualenv \
-		 zope.interface \
-		 cliutils \
-		 zc.buildout
+PYPACKAGES=ipython \
+		   readline \
+		   virtualenv \
+		   zope.interface \
+		   cliutils \
+		   zc.buildout \
+		   git+http://github.com/kevinw/pyflakes.git#egg=pyflakes
 
 
 .DEFAULT: all
@@ -49,8 +51,8 @@ $(VIRTUALENV): | $(TMPDIR)
 $(PYTHON): $(VIRTUALENV)
 	@python $(VIRTUALENV) $(HOME)
 
-python-packages: $(PYTHON) activate
-	@$(PIP) $(PACKAGES)
+python-packages: $(PYTHON)
+	@$(PIP) $(PYPACKAGES)
 
 clean:
 	@rm -rf $(TMPDIR)
