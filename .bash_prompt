@@ -45,7 +45,7 @@ GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 
 curdir () {
-    echo $PWD | sed -e "s,$ZENHOME,ZENHOME,g" | sed -e "s,/Users/ian/Archive/Projects/Zenoss/Zenoss/,,g"
+    echo $PWD | sed -e "s,$ZENHOME,ZENHOME,g" | sed -e "s,/Users/$USER/Archive/Projects/Zenoss/Zenoss/,,g"
 }
 
 curip () {
@@ -77,4 +77,4 @@ SEP=" $GREY| "
 
 PS1="$STARTCOLOR\u$SEP$B_PURPLE\$(zend)$SEP$RED\$(curip)$SEP$GREEN\$(curdir)$YELLOW\$(__git_ps1)$GREY\n=\$>$ENDCOLOR "
 
-export CSCOPE_DB=/Users/ian/.tags/python/cscope.out
+export CSCOPE_DB=/Users/$USER/.tags/python/cscope.out
