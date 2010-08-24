@@ -211,8 +211,8 @@ map <D-/> :call TogglePythonComment()<CR>
 
 " TAGS "
 
-autocmd FileType python set tags=/Users/ian/.tags/python/tags
-autocmd FileType javascript set tags=/Users/ian/.tags/js/tags
+autocmd FileType python set tags=/Users/$USER/.tags/python/tags
+autocmd FileType javascript set tags=/Users/$USER/.tags/js/tags
 cs add $CSCOPE_DB
 
 " Other stuff "
