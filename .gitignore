@@ -3,3 +3,4 @@ setuptools*
 *.swp
 *.tmp
 *.pyc
+.vim/.netrwhist

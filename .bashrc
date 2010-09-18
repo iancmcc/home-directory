@@ -106,3 +106,4 @@ svnbranch () {
     git checkout -b $1
 }
 
+alias cdpu="cd ~/src/zenoss/preupgrade-zenpack/ZenPacks.zenoss.PreUpgrade30/ZenPacks/zenoss/PreUpgrade30 && ls"

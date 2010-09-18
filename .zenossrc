@@ -23,6 +23,7 @@ alias pullz="rsync -avz --delete iansmbp:/Users/ian/Archive/Projects/Zenoss/Zeno
 cpd () {
     PROPDIR=*$1*
     PROPDIR=`echo $PROPDIR`
-    SUBDIR=`python -c "print '/'.join('$PROPDIR'.split('.'))"`
+    SUBDIR=`$ZENHOME/bin/python -c "print '/'.join('$PROPDIR'.split('.'))"`
     cd $PROPDIR/$SUBDIR
 }
+
