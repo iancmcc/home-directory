@@ -5,7 +5,7 @@ export LSCOLORS='dxcxcxdxgxegedabagacad'
 export PATH=~/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export PROMPT_COMMAND='history -a'
-export PYTHONSTARTUP="/Users/ian/.pythonrc"
+export PYTHONSTARTUP="/Users/$USER/.pythonrc"
 
 # bash 4.0 options
 shopt -s autocd globstar dirspell 
@@ -82,7 +82,7 @@ fi
 
 
 # Push SSH public key to a remote box for key access
-# usage: setupssh ian@mybox
+# usage: setupssh $USER@mybox
 setupssh () {
     USER=${1%@*}
     BOX=${1#*@}

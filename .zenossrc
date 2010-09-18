@@ -1,6 +1,6 @@
-export ZENHOME=/Users/ian/zenoss
-export ZENSRC=/Users/ian/src/zenoss/core
-export ZENENTSRC=/Users/ian/src/zenoss/enterprise
+export ZENHOME=/Users/$USER/zenoss
+export ZENSRC=/Users/$USER/src/zenoss/core
+export ZENENTSRC=/Users/$USER/src/zenoss/enterprise
 
 zenv () {
     export CC=gcc-4.0
@@ -17,8 +17,9 @@ alias cdm="cd $ZENSRC/Products/ZenModel && ls"
 alias cdui="cd $ZENHOME/Products/ZenUI3/browser && ls"
 alias cdi="cd $ZENSRC/inst"
 
-alias pushz="rsync -avz --delete /Users/ian/src/zenoss/core iansmbp:/Users/ian/Archive/Projects/Zenoss/Zenoss"
-alias pullz="rsync -avz --delete iansmbp:/Users/ian/Archive/Projects/Zenoss/Zenoss/core /Users/ian/src/zenoss"
+export REMOTEBOX=iansmbp
+alias pushz="rsync -avz --delete /Users/$USER/src/zenoss/core $REMOTEBOX:/Users/$USER/src/zenoss/core"
+alias pullz="rsync -avz --delete $REMOTEBOX:/Users/$USER/src/zenoss/core /Users/$USER/src/zenoss"
 
 cpd () {
     PROPDIR=*$1*
