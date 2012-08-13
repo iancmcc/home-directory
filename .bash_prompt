@@ -61,12 +61,20 @@ curip () {
 zend () {
     local RESULT=""
     local OUTPUT="`ps aux | grep $ZENHOME`"
-    local SEARCHFOR="zeoctl:z
-                    (zopectl|Startup/run.py):Z
-                    zenhub:h
-                    zenjobs:j"
+    local SEARCHFOR="(runzope|zopectl|Startup/run.py):Z
+                     zenhub:h
+                     zenjobs:j
+                     |
+                     (java.*zeneventserver):E
+                     zeneventd:e
+                     |
+                     (java.*Impact):I
+                     zenimpactstate:s
+                     zenimpactgraph:i"
     for f in $SEARCHFOR; do
-        if [ -n "`echo \"$OUTPUT\" | egrep \"${f%:*}\"`" ]; then
+        if [ "$f" = "|" ]; then
+            RESULT="${RESULT}."
+        elif [ -n "`echo \"$OUTPUT\" | egrep \"${f%:*}\"`" ]; then
             RESULT="${RESULT}${f#*:}"
         fi
     done
@@ -74,7 +82,6 @@ zend () {
 }
 
 SEP=" $GREY| "
-
-PS1="$STARTCOLOR\u$SEP$B_PURPLE\$(zend)$SEP$RED\$(curip)$SEP$GREEN\$(curdir)$YELLOW\$(__git_ps1)$GREY\n=\$>$ENDCOLOR "
+PS1="$STARTCOLOR\u$SEP$B_PURPLE$RED\$(curip)$SEP$GREEN\$(curdir)$YELLOW\$(__git_ps1)$GREY\n=\$>$ENDCOLOR "
 
 export CSCOPE_DB=/Users/$USER/.tags/python/cscope.out

@@ -14,6 +14,7 @@
 if exists("b:did_pyflakes_plugin")
     finish " only load once
 else
+    finish " only load once
     let b:did_pyflakes_plugin = 1
 endif
 

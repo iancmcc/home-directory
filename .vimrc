@@ -1,38 +1,36 @@
-set nocompatible
-set enc=utf-8
-filetype on
-filetype plugin on
-filetype indent on
-let python_highlight_all = 1
+set t_Co=256
+set background=dark
+colorscheme solarized
 syntax on
-set autowrite
-set incsearch
-set hlsearch
-set showmode
-set ignorecase
-set showmatch
-set matchtime=2
-set noerrorbells
-set ru
-set ts=4
-set et
-set number
-set wmh=0
-set sw=4
-set tw=79
-set bs=2
-set smarttab
-"set autoindent
-"set smartindent
-"autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-set matchpairs=(:),[:],{:},<:>
-inoremap # X#
-set pastetoggle=<F3>
 
+filetype off
+call pathogen#runtime_append_all_bundles()
+filetype plugin indent on
+
+" Make vim incompatible to vi
+set nocompatible
+set modelines=0
+
+" Tab settings
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" More common settings
+set encoding=utf-8
+set scrolloff=3
+set autoindent
+set showmode
+set showcmd
+set hidden
+set wildmenu
+set wildmode=list:longest
+set visualbell
+set matchpairs=(:),[:],{:},<:>
 set viminfo='1000,f1,<500,:500,/500
 
-autocmd Syntax javascript match Error /,\_s*[)}\]]/ 
-
+" Moving between windows
 map <C-J> <C-W>j
 map <C-K> <C-W>k
 map <c-h> <c-w>h
@@ -42,19 +40,164 @@ map + <C-W>+
 map <M-<> <C-W><
 map <M->> <C-W>>
 
-set wmw=0
-set wmh=0
+" Cursor line
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set whichwrap=h,l,[,],~
+set laststatus=2
 
-set wildignore=*.pyc,*.jpg,*.png,*.gif,*.gz
+" relativenumber
+set number
+set norelativenumber
 
+" undofile
+set shell=/usr/local/bin/bash
+set lazyredraw
+set matchtime=3
+
+" Leader key
+let mapleader = ","
+
+set title
+set dictionary=/usr/share/dict/words
+set pastetoggle=<F3>
+
+" Allow vim to edit crontab
+set backupskip=/tmp/*,/private/tmp/*
+
+" Enable mouse
+set mouse=a
+
+" Searching and moving
+nnoremap / /\v
+vnoremap / /\v
+set ignorecase
+set smartcase
+set gdefault
+set incsearch
+set showmatch
+set hlsearch
+nnoremap <leader><space> :noh<cr>
+nnoremap <tab> %
+vnoremap <tab> %
+
+
+" Long lines
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=79
+
+" Special characters
+set list
+set listchars=tab:▸\
+
+inoremap <leader>j <ESC>:RopeGotoDefinition<cr>
+
+nnoremap ; :
+
+" Remove whitespace from a file
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" ,ft Fold tag, helpful for HTML editing.
+nnoremap <leader>ft vatzf
+
+" ,q Re-hardwrap Paragraph
+nnoremap <leader>q gqip
+
+" ,v Select just pasted text.
+nnoremap <leader>v V`]
+
+" ,ev Shortcut to edit .vimrc file on the fly on a vertical window.
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+
+" jj For Qicker Escaping between normal and editing mode.
+inoremap jj <ESC>
+
+" Make Sure that Vim returns to the same line when we reopen a file"
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \ execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+nnoremap g; g;zz
+
+
+" Working with split screen nicely
+" Resize Split When the window is resized"
+au VimResized * :wincmd =
+
+
+" Wildmenu completion "
+set wildmenu
+set wildmode=list:longest
+set wildignore+=.hg,.git,.svn " Version Controls"
+set wildignore+=*.aux,*.out,*.toc "Latex Indermediate files"
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "Compiled Object files"
+set wildignore+=*.spl "Compiled speolling world list"
+set wildignore+=*.sw? "Vim swap files"
+set wildignore+=*.DS_Store "OSX SHIT"
+set wildignore+=*.luac "Lua byte code"
+set wildignore+=migrations "Django migrations"
+set wildignore+=*.pyc "Python Object codes"
+set wildignore+=*.orig "Merge resolution files"
+
+
+" gvim settings
+
+" Removing scrollbars
+if has("gui_running")
+    set gfn=Letter\ Gothic\ Std\ Bold:h14
+    set tabpagemax=1
+    set transp=5
+    set sessionoptions+=resize,winpos
+    set guitablabel=%-0.12t%M
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    set guioptions+=a
+    set guioptions+=m
+    set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
+    autocmd VimEnter * wincmd p
+    autocmd VimEnter * NERDTreeFind
+    autocmd VimEnter * wincmd p
+    autocmd VimEnter * vsplit
+endif
+
+
+autocmd bufwritepost .vimrc source ~/.vimrc
+
+" Mapping to NERDTree
+let g:NERDTreeWinPos = 'right'
+nnoremap <C-n> :NERDTreeToggle<cr>
+nnoremap NF :NERDTreeFind<CR>
+
+" Mini Buffer some settigns."
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
+
+" Rope Plugin settings
+imap <leader>j <ESC>:RopeGotoDefinition<cr>
+nmap <leader>j <ESC>:RopeGotoDefinition<cr>
+
+" Tagbar key bindings."
+nmap <leader>l <ESC>:TagbarToggle<cr>
+imap <leader>l <ESC>:TagbarToggle<cr>i
+
+" Change directory to current
 function! CHANGE_CURR_DIR()
     let _dir = expand("%:p:h")
     exec "cd " . _dir
     unlet _dir
 endfunction
 autocmd BufEnter * call CHANGE_CURR_DIR()
-
-autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
 if &term == "xterm-color"
 	set t_kb=
@@ -68,163 +211,21 @@ nmap <S-Tab> <<
 vmap <Tab> >gv
 vmap <S-Tab> <gv
 
-
 nmap ,pdb Oimport pdb; pdb.set_trace()<Esc>
-set whichwrap=h,l,[,],~
-set backspace=eol,start,indent
-
-inoremap ( ()<Left>
-inoremap [ []<Left>
-inoremap { {}<Left>
-autocmd Syntax html,vim inoremap < <lt>><ESC>i| inoremap > <c-r>=ClosePair('>')<CR>
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap } <c-r>=ClosePair('}')<CR>
-inoremap """ <c-r>=QuoteDelim('"""')<CR>
-inoremap " <c-r>=QuoteDelim('"')<CR>
-inoremap ' <c-r>=QuoteDelim("'")<CR>
 
 inoremap <D-CR> <Esc>o
 
 autocmd Syntax python inoremap <S-CR> <Esc>A:<Esc>o
 autocmd Syntax css,javascript,html inoremap <S-CR> <Esc>A;<Esc>o
 
-vnoremap (  `>a)`<i(
-vnoremap )  `>a)`<i(
-vnoremap {  `>a}`<i{
-vnoremap }  `>a}`<i{
-vnoremap "  `>a"`<i"
-vnoremap '  `>a'`<i'
-vnoremap `  `>a``<i`
-vnoremap [  `>a]`<i[
-vnoremap ]  `>a]`<i[
-
-function! ClosePair(char)
-  if getline('.')[col('.') - 1] == a:char
-    return "\<Right>"
-  else
-    return a:char
-  endif
-endf
-
-function! QuoteDelim(char)
-  let slen = len(a:char)
-  let line = getline('.')
-  let col = col('.') - slen + 1
-  if line[col - 2] == "\\"
-    "Inserting a quoted quotation mark into the string
-    return a:char
-  elseif line[col - 1] == a:char
-    "Escaping out of the string
-    return "\<Right>"
-  else
-    "Starting a string
-    let alist = []
-    for n in range(slen)
-        call add(alist,"\<Left>")
-    endfor
-    return a:char.a:char.join(alist,"")
-  endif
-endf 
-
-function! InAnEmptyPair()
-  let cur = strpart(getline('.'),getpos('.')[2]-2,2)
-  for pair in (split(&matchpairs,',') + ['":"',"':'"])
-    if cur == join(split(pair,':'),'')
-      return 1
-    endif
-  endfor
-  return 0
-endfunc
-
-func! DeleteEmptyPairs()
-    if InAnEmptyPair()
-        return "\<Left>\<Del>\<Del>"
-    else
-        return "\<BS>"
-    endif
-endfunc
-inoremap <expr> <BS> DeleteEmptyPairs()
-
-func! MultiLinePairs()
-    if InAnEmptyPair()
-        return "\<CR>\<Esc>O"
-    else
-        return "\<CR>"
-    endif
-endfunc
-inoremap <expr> <CR> MultiLinePairs()
-
-function! PythonCommentSelection()  range
-  let commentString = "#"
-  let cl = a:firstline
-  let ind = 1000 
-  while (cl <= a:lastline)
-    if strlen(getline(cl))
-      let cind = indent(cl)
-      let ind = ((ind < cind) ? ind : cind)
-    endif
-    let cl = cl + 1
-  endwhile
-  if (ind == 1000)
-    let ind = 1
-  else
-    let ind = ind + 1
-  endif
-  let cl = a:firstline
-  execute ":".cl
-  while (cl <= a:lastline)
-    if strlen(getline(cl))
-      execute "normal ".ind."|i".commentString
-    endif
-    execute "normal \<Down>"
-    let cl = cl + 1
-  endwhile
-  execute "normal \<Up>"
-endfunction
-
-function! PythonUncommentSelection()  range
-  let commentString = "#"
-  let cl = a:firstline
-  while (cl <= a:lastline)
-    let ul = substitute(getline(cl),
-             \"\\(\\s*\\)".commentString."\\(.*\\)$", "\\1\\2", "")
-    call setline(cl, ul)
-    let cl = cl + 1
-  endwhile
-  endfunction
-
-function! TogglePythonComment() range
-    let cl = a:firstline
-    let fc = substitute(getline(cl), "^\\s*\\(.\\).*", "\\1", "")
-    if (fc == "#")
-        execute ":".a:firstline.",".a:lastline."call PythonUncommentSelection()"
-    else
-        execute ":".a:firstline.",".a:lastline."call PythonCommentSelection()"
-    endif
-endfunction
-
-map <D-/> :call TogglePythonComment()<CR>
+map <C-/> :NERDComToggleComment
 
 
-
-
-" TAGS "
-
-autocmd FileType python set tags=/Users/$USER/.tags/python/tags
-autocmd FileType javascript set tags=/Users/$USER/.tags/js/tags
-cs add $CSCOPE_DB
 
 " Other stuff "
+nnoremap <F5> :!pyflakes %<return>
 
-autocmd FileType python set omnifunc=pythoncomplete#Complete
+map <leader>v <Plug>TaskList
 
-map T :TlistToggle<CR>
-map Q :NERDTreeToggle $ZENHOME/Products<CR>
-nmap NF :NERDTreeFind<CR>
 
-let g:NERDTreeWinPos = 'right'
-
-set laststatus=2
-set statusline=%{GitBranch()}
 

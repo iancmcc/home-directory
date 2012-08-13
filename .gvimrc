@@ -1,9 +1,10 @@
 set lines=90
 set nocompatible
 syntax on
-colorscheme blackboard
+set background=dark
+colorscheme solarized
 set columns=300
-set gfn=Monaco:h12
+set gfn=Letter\ Gothic\ Std\ Bold:h14
 set tabpagemax=1
 
 set transp=5

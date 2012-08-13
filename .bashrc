@@ -2,7 +2,7 @@ export CLICOLOR=1
 export EDITOR='vim'
 export LESS='-R'
 export LSCOLORS='dxcxcxdxgxegedabagacad'
-export PATH=~/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/usr/local/mysql/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export PROMPT_COMMAND='history -a'
 export PYTHONSTARTUP="/Users/$USER/.pythonrc"
@@ -51,6 +51,14 @@ bind 'set visible-stats on'
 # Auto-expand ! stuff (!!, e.g.) when you hit space
 bind 'Space:magic-space'
 
+
+shopt -s cdable_vars
+#if shopt -q cdable_vars; then
+#    complete -v -F _cd $nospace $filenames cd
+#else
+#    complete -F _cd $nospace $filenames cd
+#fi
+
 ###############################
 #           ALIASES           #
 ###############################
@@ -59,13 +67,21 @@ alias gvim="open -a MacVim.app"
 alias g="gvim"
 alias ls='ls -lh'
 alias diff='diff -u'
-alias python="ipython"
 alias depyc='rm -f **/*.pyc'
 
 # git shortcuts
 alias go="git co"
-alias gc="git ci -m"
 alias ga="git add"
+
+function gc() {
+    git ci -m $@
+    git svn dcommit
+}
+
+VIRTUAL_ENV_DISABLE_PROMPT=1
+if [ -f ~/bin/activate ]; then
+    . ~/bin/activate
+fi
 
 # Imports of other files
 if [ -f ~/.zenossrc ]; then
@@ -75,10 +91,6 @@ if [ -f ~/.bash_prompt ]; then
     . ~/.bash_prompt
 fi
 
-VIRTUAL_ENV_DISABLE_PROMPT=1
-if [ -f ~/bin/activate ]; then
-    . ~/bin/activate
-fi
 
 
 # Push SSH public key to a remote box for key access
@@ -106,3 +118,19 @@ svnbranch () {
     git checkout -b $1
 }
 
+
+export M2_HOME=/usr/share/maven
+
+rebuild-dsa () {
+    cd ~/src/zenoss/DSA && mvn clean package -DskipTests && rm -rf ~/tmp2 && mkdir -p ~/tmp2 && mv target/zenoss-dsa*.tar.gz ~/tmp2 && cd ~/tmp2 && tar xzf * && cd zenoss-dsa-1.0-SNAPSHOT && rm -rf var/db && bin/zenoss-dsa run
+}
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # This loads RVM into a shell session.
+
+
+export NOVA_CERT=/Users/ian/.nova_auth/cacert.pem
+export NOVA_PROJECT_ID=development
+export NOVA_VERSION=1.1
+export NOVA_USERNAME=imccracken
+export NOVA_API_KEY=99fdeabc-d382-4c90-86f0-20106bf4cfd2
+export NOVA_URL=http://10.175.213.10:8774/v1.1/

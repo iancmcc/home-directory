@@ -1,13 +1,21 @@
 export ZENHOME=/Users/$USER/zenoss
 export ZENSRC=/Users/$USER/src/zenoss/core
 export ZENENTSRC=/Users/$USER/src/zenoss/enterprise
+if [ -e "/Volumes/Speedy/zenoss" ]; then
+    export ZENHOME=/Volumes/Speedy/zenoss
+fi
+if [ -e "/Volumes/Speedy/core" ]; then
+    export ZENSRC=/Volumes/Speedy/core
+fi
+if [ -e "/Volumes/Speedy/enterprise" ]; then
+    export ZENENTSRC=/Volumes/Speedy/enterprise
+fi
 
 zenv () {
-    export CC=gcc-4.0
-    export CXX=g++-4.0
-    export PATH=$ZENHOME/bin:$PATH
-    export PYTHONPATH=$ZENHOME/lib/python:$PYTHONPATH
+    export PATH=$ZENHOME/bin:/opt/local/libexec/ccache:$PATH
     export PS1="(zenoss) $PS1"
+    export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=cpp
+    source $ZENHOME/bin/zenfunctions
 }
 
 alias cdz="cd $ZENHOME && ls"
@@ -16,6 +24,10 @@ alias cde="cd $ZENENTSRC && ls"
 alias cdm="cd $ZENSRC/Products/ZenModel && ls"
 alias cdui="cd $ZENHOME/Products/ZenUI3/browser && ls"
 alias cdi="cd $ZENSRC/inst"
+alias cdn="cd /Users/ian/src/ZenPacks.zenoss.NeoCatalog"
+alias cdng="cd /Users/ian/src/NG"
+
+alias 411="pushd $HOME/zen411 > /dev/null && vagrant ssh && popd > /dev/null"
 
 export REMOTEBOX=iansmbp
 alias pushz="rsync -avz --delete /Users/$USER/src/zenoss/core $REMOTEBOX:/Users/$USER/src/zenoss/core"
@@ -25,5 +37,110 @@ cpd () {
     PROPDIR=*$1*
     PROPDIR=`echo $PROPDIR`
     SUBDIR=`/usr/bin/python -c "print '/'.join('$PROPDIR'.split('.'))"`
+    cd $ZENENTSRC
     cd $PROPDIR/$SUBDIR
 }
+
+reprot () {
+    pushd /Users/$USER/src/zenoss/protocols > /dev/null 2>&1 && svn up && mvn install >/dev/null 2>&1  && cd python && make build && popd >/dev/null 2>&1
+}
+
+rabbitreset() {
+    VHOST="/zenoss"
+    USER="zenoss"
+    PASS="zenoss"
+    rabbitmqctl stop_app
+    rabbitmqctl reset
+    rabbitmqctl start_app
+    rabbitmqctl add_vhost "$VHOST"
+    rabbitmqctl add_user "$USER" "$PASS"
+    rabbitmqctl set_permissions -p "$VHOST" "$USER" '.*' '.*' '.*'
+}
+alias cdesa='cd /Users/ian/src/zenoss/enterprise/ZenPacks.zenoss.EnterpriseServiceAssurance/ZenPacks/zenoss/EnterpriseServiceAssurance && ls'
+
+
+runwhenchange() {
+    TARGETDIR="$1"
+    DELAY="$2"
+    shift
+    shift
+    COMMAND="$@"
+    OLD="`find $TARGETDIR | grep -v .pyc | grep -v egg-info | xargs stat -t`"
+    while true
+    do
+        NEW="`find $TARGETDIR | grep -v .pyc | grep -v egg-info | xargs stat -t`"
+        if [ "$OLD" == "$NEW" ]; then
+            sleep $DELAY
+        else
+            OLD="$NEW"
+            source $ZENHOME/bin/zenfunctions && PATH=$ZENHOME/bin:$PATH $COMMAND
+        fi
+    done
+}
+
+build_zep() {
+   local build_type=${1:-"war"}
+   zeneventserver stop
+   rm -rf $ZENHOME/webapps/zeneventserver || return 1
+   pushd $ZENSRC/zep > /dev/null
+   case "$build_type" in
+       war)
+           echo "Deploying new ZEP war file..."
+           mvn -q clean package || return 1
+           unzip -q webapp/target/zep-webapp-*.war -d $ZENHOME/webapps/zeneventserver || return 1
+           ;;
+       tar)
+           echo "Deploying new ZEP distribution..."
+           mvn -q clean package
+           tar zxPf dist/target/zep-dist-*.tar.gz -C $ZENHOME || return 1
+           ;;
+       *)
+           echo "Invalid build type: $build_type"
+           return 1
+           ;;
+   esac
+   popd > /dev/null
+}
+
+build_protocols() {
+   zenoss stop
+   rm -rf $ZENHOME/lib/python/zenoss.protocols* || return 1
+   rm -rf $ZENHOME/lib/python/zenoss/protocols || return 1
+   pushd $ZENSRC/protocols/java > /dev/null
+   mvn -q clean install || return 1
+   popd > /dev/null
+   pushd $ZENSRC/protocols/python > /dev/null
+   make clean build || return 1
+   python setup.py develop || return 1
+   popd > /dev/null
+}
+
+essentials() {
+    ACTION=$1
+    for d in zeneventserver zeneventd zenhub zenjobs zenimpactgraph zenimpactstate zenimpactserver; do
+        $d $ACTION
+    done
+}
+
+link_products() {
+   rm -rf "$ZENSRC/inst/libzenoss"
+   mkdir "$ZENSRC/inst/libzenoss"
+   pushd "$ZENSRC/inst/libzenoss" > /dev/null
+   for d in bin Products inst/fs java protocols zep; do
+       local destdir=$d
+       if [ "$d" = "inst/fs" ]; then
+           destdir="extras"
+       fi
+       ln -s $ZENSRC/$d $destdir
+       tar zcf $destdir.tar.gz $destdir
+       rm -f $destdir
+   done
+   popd > /dev/null
+}
+
+zenv
+
+export BUILD64=1
+export RRDDEPS_SKIP=1
+
+export PATH=/Users/ian/Downloads/flex_sdk_4.6/bin:$PATH
