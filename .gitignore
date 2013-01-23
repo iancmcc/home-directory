@@ -3,4 +3,5 @@ setuptools*
 *.swp
 *.tmp
 *.pyc
+.vim/.netrwhist
 .vim/c-support

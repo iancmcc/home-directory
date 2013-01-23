@@ -119,7 +119,6 @@ svnbranch () {
     git checkout -b $1
 }
 
-
 export M2_HOME=/usr/share/maven
 
 rebuild-dsa () {
@@ -141,3 +140,5 @@ export WORKON_HOME=/Users/ian/.virtualenvs
 source /Volumes/Speedy/zenoss/bin/virtualenvwrapper.sh
 
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
+
+alias cdpu="cd ~/src/zenoss/preupgrade-zenpack/ZenPacks.zenoss.PreUpgrade30/ZenPacks/zenoss/PreUpgrade30 && ls"

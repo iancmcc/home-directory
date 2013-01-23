@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/Volumes/Speedy'
-let g:netrw_dirhist_2='/Volumes/Speedy/enterprise'
-let g:netrw_dirhist_3='/Volumes/Speedy'
-let g:netrw_dirhist_4='/Volumes/Speedy/core/inst/externallibs/Twisted-11.0.0'
-let g:netrw_dirhist_5='/Volumes/Speedy/core/inst/externallibs/Twisted-11.0.0/twisted'
-let g:netrw_dirhist_6='/Users/ian/.m2'
