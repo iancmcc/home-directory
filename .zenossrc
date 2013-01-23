@@ -55,6 +55,7 @@ rabbitreset() {
     rabbitmqctl add_vhost "$VHOST"
     rabbitmqctl add_user "$USER" "$PASS"
     rabbitmqctl set_permissions -p "$VHOST" "$USER" '.*' '.*' '.*'
+    rabbitmqctl set_user_tags "$USER" administrator
 }
 alias cdesa='cd /Users/ian/src/zenoss/enterprise/ZenPacks.zenoss.EnterpriseServiceAssurance/ZenPacks/zenoss/EnterpriseServiceAssurance && ls'
 

@@ -67,7 +67,7 @@ set pastetoggle=<F3>
 set backupskip=/tmp/*,/private/tmp/*
 
 " Enable mouse
-set mouse=a
+"set mouse=a
 
 " Searching and moving
 nnoremap / /\v
@@ -162,7 +162,7 @@ if has("gui_running")
     set guioptions-=L
     set guioptions+=a
     set guioptions+=m
-    set listchars=tab:▸\ ,eol:¬         " Invisibles using the Textmate style
+    set listchars=tab:▸\
     autocmd VimEnter * wincmd p
     autocmd VimEnter * NERDTreeFind
     autocmd VimEnter * wincmd p
@@ -218,7 +218,7 @@ inoremap <D-CR> <Esc>o
 autocmd Syntax python inoremap <S-CR> <Esc>A:<Esc>o
 autocmd Syntax css,javascript,html inoremap <S-CR> <Esc>A;<Esc>o
 
-map <C-/> :NERDComToggleComment
+map <D-/> <leader>c<space>
 
 
 

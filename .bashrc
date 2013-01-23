@@ -1,8 +1,8 @@
 export CLICOLOR=1
-export EDITOR='vim'
+export EDITOR='mvim -v'
 export LESS='-R'
 export LSCOLORS='dxcxcxdxgxegedabagacad'
-export PATH=/usr/local/mysql/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=/usr/local/mysql/bin:/usr/local/bin:/usr/local/sbin:/usr/local/texlive/2012/bin/universal-darwin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
 export PROMPT_COMMAND='history -a'
 export PYTHONSTARTUP="/Users/$USER/.pythonrc"
@@ -68,6 +68,7 @@ alias g="gvim"
 alias ls='ls -lh'
 alias diff='diff -u'
 alias depyc='rm -f **/*.pyc'
+alias vim="mvim -v"
 
 # git shortcuts
 alias go="git co"
@@ -78,7 +79,7 @@ function gc() {
     git svn dcommit
 }
 
-VIRTUAL_ENV_DISABLE_PROMPT=1
+#VIRTUAL_ENV_DISABLE_PROMPT=1
 if [ -f ~/bin/activate ]; then
     . ~/bin/activate
 fi
@@ -134,3 +135,9 @@ export NOVA_VERSION=1.1
 export NOVA_USERNAME=imccracken
 export NOVA_API_KEY=99fdeabc-d382-4c90-86f0-20106bf4cfd2
 export NOVA_URL=http://10.175.213.10:8774/v1.1/
+
+export WORKON_HOME=/Users/ian/.virtualenvs
+
+source /Volumes/Speedy/zenoss/bin/virtualenvwrapper.sh
+
+export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
